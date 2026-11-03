@@ -1,43 +1,42 @@
-
 ## Team Information
 
 - **Team Name:** eight_team
 - **Team Leader:** 이준목 (2024270681)
 - **Team Members:**
-  - 송정훈 (학번)
-  - 최대환 (학번)
-  - 이윤서 (학번)
+  - 송정훈 (Student ID)
+  - 최대환 (Student ID)
+  - 이윤서 (Student ID)
 
 ## Project Title
 
-뉴스 한눈에 (NewsLens): MinHash·LSH 기반 유사 뉴스 그룹화 및 요약 서비스
+NewsLens: Similar News Grouping and Summarization Service Based on MinHash and LSH
 
 ## Overview
 
-최근 여러 매체가 같은 사건을 제목만 바꿔 반복 보도하는 경우가 늘면서, 독자들이 이미 본 내용을 다시 확인하는 데 불필요한 시간을 쓰고 있다. 본 프로젝트는 공개 뉴스 제목 데이터셋에 MinHash와 LSH(Locality-Sensitive Hashing) 알고리즘을 적용해 유사한 뉴스 후보를 빠르게 찾는다. 이어서 Upstage Solar 에이전트로 각 그룹의 공통 내용을 요약하고, 그 결과를 웹 서비스로 제공한다.
+As more media outlets repeatedly report the same event under slightly different headlines, readers waste time checking information they have already seen. This project applies MinHash and LSH (Locality-Sensitive Hashing) to a public news headline dataset to quickly find candidate pairs of similar articles. It then uses an Upstage Solar agent to summarize what each group of articles has in common, and delivers the results through a web service.
 
 ## Goals
 
-1. MinHash와 LSH로 대량의 뉴스 제목에서 유사 기사 쌍을 빠르게 찾는다. 전수 비교 방식 대비 처리 시간과 정확도(Precision/Recall)를 수치로 비교한다.
-2. 유사 기사들을 하나의 사건 그룹으로 묶고, Upstage Solar로 그룹별 공통 내용을 한두 문장으로 요약한다.
-3. 사용자가 유사 뉴스 목록과 그룹별 요약을 직관적으로 확인할 수 있는 웹 서비스를 구현한다.
+1. Use MinHash and LSH to quickly find similar article pairs among a large number of news headlines, and compare processing time and accuracy (Precision/Recall) against an all-pairs comparison.
+2. Group similar articles into event clusters and use Upstage Solar to summarize the common content of each group in one or two sentences.
+3. Build a web service where users can easily browse similar news lists and per-group summaries.
 
 ## Description
 
-- **데이터 처리:** 공개 뉴스 제목 데이터셋을 수집하고 전처리(특수문자 제거, 정규화)한다. 한국어 제목은 짧기 때문에 단어 단위보다 문자 n-gram 단위로 shingle을 만든다.
-- **유사 후보 탐색:** 각 제목의 shingle 집합으로 MinHash 서명을 만들고, LSH banding(b, r)으로 유사 후보 쌍을 찾는다. b와 r 값을 바꿔 가며 S-곡선 임계값 (1/b)^(1/r)에 따른 false positive와 false negative의 변화를 분석한다.
-- **그룹화:** 후보 쌍 중 실제 Jaccard 유사도가 기준 이상인 쌍만 남기고, 연결된 기사들을 Union-Find로 하나의 사건 그룹으로 묶는다.
-- **요약:** 그룹마다 대표 제목들을 Upstage Solar 에이전트에 입력해 공통 내용을 요약하고, 각 기사가 다르게 강조한 부분도 짧게 설명한다.
-- **웹 서비스:** 백엔드 API와 프론트엔드로 구성한다. 사건 그룹 목록, 그룹별 요약, 소속 기사 목록, 유사도 점수를 보여주고 키워드 검색 기능을 제공한다.
-- **평가:** 전수 비교 결과를 정답으로 삼아 LSH의 Precision, Recall, 처리 시간, 비교 횟수 감소율을 측정한다. 요약 품질은 샘플 그룹을 대상으로 팀원들이 직접 평가한다.
+- **Data processing:** Collect a public news headline dataset and preprocess it (special character removal, normalization). Since Korean headlines are short, shingles are built from character n-grams rather than words.
+- **Candidate search:** Build a MinHash signature from each headline's shingle set and find candidate pairs with LSH banding (b, r). Vary b and r to analyze how false positives and false negatives change with the S-curve threshold (1/b)^(1/r).
+- **Grouping:** Keep only candidate pairs whose actual Jaccard similarity is above a threshold, and merge connected articles into event groups using Union-Find.
+- **Summarization:** Feed representative headlines from each group to an Upstage Solar agent to summarize the shared content, with a short note on what each article emphasizes differently.
+- **Web service:** Consists of a backend API and a frontend. It shows event groups, per-group summaries, member articles and similarity scores, and supports keyword search.
+- **Evaluation:** Using the all-pairs comparison as ground truth, measure LSH's Precision, Recall, processing time and reduction in comparisons. Summary quality is rated by team members on sample groups.
 
 ## Milestones
 
-| 주차 | 내용 |
+| Week | Tasks |
 |---|---|
-| 1주차 | 팀 선정 및 주제 선정, 역할 분담 |
-| 2주차 |데이터셋 선정 및 수집, 데이터 전처리, shingling 방식 결정, 전수 비교(Jaccard) 정답셋 생성 |
-| 3주차 | MinHash 서명 및 LSH banding 구현, b·r 파라미터 실험, Union-Find 그룹화 구현, 정확도와 성능 비교 분석  |
-| 4주차 | Upstage Solar 연동, 그룹별 요약 프롬프트 설계 및 품질 점검  |
-| 5주차 | 웹 서비스 백엔드와 프론트엔드 구현, 전체 파이프라인 연결  |
-| 6주차 | 통합 테스트, 성능 수치 정리, 최종 보고서 및 발표 준비  |
+| Week 1 | Team formation, topic selection, role assignment |
+| Week 2 | Dataset selection and collection, preprocessing, shingling design, all-pairs Jaccard ground truth |
+| Week 3 | MinHash signatures and LSH banding, b·r parameter experiments, Union-Find grouping, accuracy and performance analysis |
+| Week 4 | Upstage Solar integration, summarization prompt design and quality check |
+| Week 5 | Web service backend and frontend, end-to-end pipeline integration |
+| Week 6 | Integration testing, performance results, final report and presentation |
