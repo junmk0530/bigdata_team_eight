@@ -1,0 +1,10 @@
+import { createClient } from '@supabase/supabase-js';
+import { cluster } from '../lib/news-engine.ts';
+import { sampleArticles } from '../lib/sample.ts';
+const url=process.env.NEXT_PUBLIC_SUPABASE_URL,key=process.env.SUPABASE_SECRET_KEY||process.env.SUPABASE_SERVICE_ROLE_KEY;
+if(!url||!key)throw new Error('NEXT_PUBLIC_SUPABASE_URL and a server-only SUPABASE_SECRET_KEY are required.');
+const db=createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false}});
+const name='SameStory 가상 시연 데이터';
+const {data:existing,error:checkError}=await db.from('news_datasets').select('id').eq('name',name).eq('is_sample',true).limit(1);
+if(checkError)throw new Error('Apply supabase/migrations first.');
+if(!existing?.length){const result=cluster(sampleArticles,.4);const {error}=await db.rpc('publish_news_dataset',{p_name:name,p_threshold:.4,p_stats:result.stats,p_groups:result.groups,p_is_sample:true});if(error)throw new Error('Sample publication failed. Check the server key and migration.');console.log(`Seeded ${sampleArticles.length} fictional titles, ${result.groups.length} groups.`);}else console.log('Sample dataset already exists; skipped.');

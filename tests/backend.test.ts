@@ -1,0 +1,10 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {ApiError,readJson,guardOrigin,databaseConfigured,authenticated} from '../lib/supabase-server.ts';
+import {mapSharedGroups} from '../lib/shared-data.ts';
+test('streamed JSON limit rejects bodies without relying on content-length',async()=>{const req=new Request('https://site.test',{method:'POST',body:JSON.stringify({x:'1234567890'})});await assert.rejects(()=>readJson(req,5),(e:unknown)=>e instanceof ApiError&&e.status===413);});
+test('invalid JSON returns a client error',async()=>{await assert.rejects(()=>readJson(new Request('https://site.test',{method:'POST',body:'{broken'})),(e:unknown)=>e instanceof ApiError&&e.status===400);});
+test('cross-origin writes are rejected and same-origin writes accepted',()=>{assert.throws(()=>guardOrigin(new Request('https://site.test',{headers:{origin:'https://evil.test'}})),(e:unknown)=>e instanceof ApiError&&e.status===403);assert.doesNotThrow(()=>guardOrigin(new Request('https://site.test',{headers:{origin:'https://site.test'}})));});
+test('unauthenticated writes fail before making a database request',async()=>{await assert.rejects(()=>authenticated(new Request('https://site.test')),(e:unknown)=>e instanceof ApiError&&e.status===401);});
+test('missing Supabase configuration is explicit',()=>{const oldURL=process.env.NEXT_PUBLIC_SUPABASE_URL,oldKey=process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;delete process.env.NEXT_PUBLIC_SUPABASE_URL;delete process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;assert.equal(databaseConfigured(),false);if(oldURL)process.env.NEXT_PUBLIC_SUPABASE_URL=oldURL;if(oldKey)process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=oldKey;});
+test('shared group mapping keeps DB identity and dataset provenance',()=>{const groups=mapSharedGroups([{id:'database-id',dataset_id:'dataset-id',payload:{id:'local-id',title:'News title',articles:[],category:'World',keywords:[],differences:[]}}],'Shared corpus',.65);assert.equal(groups[0].databaseId,'database-id');assert.equal(groups[0].id,'shared:database-id');assert.equal(groups[0].dataset,'Shared corpus');assert.equal(groups[0].threshold,.65);});

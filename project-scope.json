@@ -1,0 +1,12 @@
+{
+  "project": "SameStory",
+  "localDirectory": "samestory-vercel",
+  "vercelProjectId": "prj_93VZarQXQiOPsrLouqZgwrW4ngWM",
+  "vercelTeamId": "team_NArsafLaXbXKHNOsciU5UBnH",
+  "productionUrl": "https://samestory-news-qa.vercel.app",
+  "supabaseOrganization": "SameStory",
+  "supabaseOrganizationId": "hpmzcplgvhwffflwsbzt",
+  "supabaseProjectId": "mhqmrnggjesnfelnpsba",
+  "supabaseRegion": "ap-northeast-2",
+  "existingProjectsModified": false
+}
