@@ -13,7 +13,7 @@ NewsLens: Similar News Grouping and Summarization Service Based on MinHash and L
 
 ## Overview
 
-As more media outlets repeatedly report the same event under slightly different headlines, readers waste time checking information they have already seen. This project applies MinHash and LSH (Locality-Sensitive Hashing) to a public news headline dataset to quickly find candidate pairs of similar articles. It then uses an Upstage Solar agent to summarize what each group of articles has in common, and delivers the results through a web service.
+As more media outlets repeatedly report the same event under slightly different headlines, readers waste time checking information they have already seen. This project applies MinHash and LSH (Locality-Sensitive Hashing) to a public news headline dataset to quickly find candidate pairs of similar articles. It then uses Z.ai to summarize what each group of articles has in common, and delivers the results through a web service.
 
 ## Goals
 
@@ -23,10 +23,10 @@ As more media outlets repeatedly report the same event under slightly different 
 
 ## Description
 
-- **Data processing:** Collect a public news headline dataset and preprocess it (special character removal, normalization). Since Korean headlines are short, shingles are built from character n-grams rather than words.
+- **Data processing:** Collect a public English news headline dataset (e.g. Kaggle) and preprocess it (lowercasing, special character removal, normalization). Each headline is converted into a set of word tokens for shingling.
 - **Candidate search:** Build a MinHash signature from each headline's shingle set and find candidate pairs with LSH banding (b, r). Vary b and r to analyze how false positives and false negatives change with the S-curve threshold (1/b)^(1/r).
 - **Grouping:** Keep only candidate pairs whose actual Jaccard similarity is above a threshold, and merge connected articles into event groups using Union-Find.
-- **Summarization:** Feed representative headlines from each group to an Upstage Solar agent to summarize the shared content, with a short note on what each article emphasizes differently.
+- **Summarization:** Feed representative headlines from each group to Z.ai to summarize the shared content, with a short note on what each article emphasizes differently.
 - **Web service:** Consists of a backend API and a frontend. It shows event groups, per-group summaries, member articles and similarity scores, and supports keyword search.
 - **Evaluation:** Using the all-pairs comparison as ground truth, measure LSH's Precision, Recall, processing time and reduction in comparisons. Summary quality is rated by team members on sample groups.
 
@@ -37,6 +37,12 @@ As more media outlets repeatedly report the same event under slightly different 
 | Week 1 | Team formation, topic selection, role assignment |
 | Week 2 | Dataset selection and collection, preprocessing, shingling design, all-pairs Jaccard ground truth |
 | Week 3 | MinHash signatures and LSH banding, b·r parameter experiments, Union-Find grouping, accuracy and performance analysis |
-| Week 4 | Upstage Solar integration, summarization prompt design and quality check |
+| Week 4 | Z.ai integration, summarization prompt design and quality check |
 | Week 5 | Web service backend and frontend, end-to-end pipeline integration |
 | Week 6 | Integration testing, performance results, final report and presentation |
+
+## Documents
+
+- [Web Structure Design](docs/WEB_STRUCTURE.md)
+- [Weekly Progress Reports](docs/weekly)
+- Deployed demo: https://samestory-news-qa.vercel.app/
