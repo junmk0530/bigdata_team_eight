@@ -18,8 +18,10 @@ As more media outlets repeatedly report the same event under slightly different 
 ## Goals
 
 1. Use MinHash and LSH to quickly find similar article pairs among a large number of news headlines, and compare processing time and accuracy (Precision/Recall) against an all-pairs comparison.
-2. Group similar articles into event clusters and use Upstage Solar to summarize the common content of each group in one or two sentences.
-3. Build a web service where users can easily browse similar news lists and per-group summaries.
+2. Group similar articles into event clusters and use Z.ai to summarize the common content of each group in one or two sentences.
+3. Detect conflicting information within the same event, such as numbers or claims that differ across outlets (e.g. death tolls, announcement dates), and flag them for review.
+4. Recommend event groups tailored to each user based on their interests and reading history.
+5. Build a web service where users can easily browse similar news lists and per-group summaries.
 
 ## Description
 
@@ -27,6 +29,8 @@ As more media outlets repeatedly report the same event under slightly different 
 - **Candidate search:** Build a MinHash signature from each headline's shingle set and find candidate pairs with LSH banding (b, r). Vary b and r to analyze how false positives and false negatives change with the S-curve threshold (1/b)^(1/r).
 - **Grouping:** Keep only candidate pairs whose actual Jaccard similarity is above a threshold, and merge connected articles into event groups using Union-Find.
 - **Summarization:** Feed representative headlines from each group to Z.ai to summarize the shared content, with a short note on what each article emphasizes differently.
+- **Conflict detection:** Extract numeric expressions (amounts, counts, dates) from articles in the same group, compare values with the same unit, and use Z.ai to identify differing figures or claims. Results are shown as review candidates rather than fact-check verdicts, since differences may come from reporting time. (e.g. "Outlet A reports 300 deaths, Outlet B reports 250")
+- **Personalized recommendation:** Users select topics of interest, and the service recommends event groups based on those topics, bookmarks and reading history.
 - **Web service:** Consists of a backend API and a frontend. It shows event groups, per-group summaries, member articles and similarity scores, and supports keyword search.
 - **Evaluation:** Using the all-pairs comparison as ground truth, measure LSH's Precision, Recall, processing time and reduction in comparisons. Summary quality is rated by team members on sample groups.
 
