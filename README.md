@@ -3,9 +3,9 @@
 - **Team Name:** eight_team
 - **Team Leader:** 이준목 (2024270681)
 - **Team Members:**
-  - 송정훈 (Student ID)
-  - 최대환 (Student ID)
-  - 이윤서 (Student ID)
+  - 송정훈 (2022270693)
+  - 최대환 (2024270676)
+  - 이윤서 (2022270684)
 
 ## Project Title
 
