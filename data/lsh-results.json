@@ -1,0 +1,119 @@
+{
+  "n": 1500,
+  "possible": 1124250,
+  "runs": [
+    {
+      "name": "64밴드 × 2행, 기준 0.40 (현재 서비스)",
+      "bands": 64,
+      "rows": 2,
+      "threshold": 0.4,
+      "candidates": 8000,
+      "capped": false,
+      "candidateMs": 157,
+      "truthPairs": 422,
+      "truthMs": 244,
+      "hit": 422,
+      "precision": 0.05275,
+      "recall": 1,
+      "reduction": 0.9928841449855459
+    },
+    {
+      "name": "32밴드 × 4행, 기준 0.40",
+      "bands": 32,
+      "rows": 4,
+      "threshold": 0.4,
+      "candidates": 819,
+      "capped": false,
+      "candidateMs": 107,
+      "truthPairs": 422,
+      "truthMs": 244,
+      "hit": 352,
+      "precision": 0.4297924297924298,
+      "recall": 0.8341232227488151,
+      "reduction": 0.9992715143428953
+    },
+    {
+      "name": "16밴드 × 8행, 기준 0.40",
+      "bands": 16,
+      "rows": 8,
+      "threshold": 0.4,
+      "candidates": 96,
+      "capped": false,
+      "candidateMs": 72,
+      "truthPairs": 422,
+      "truthMs": 244,
+      "hit": 89,
+      "precision": 0.9270833333333334,
+      "recall": 0.2109004739336493,
+      "reduction": 0.9999146097398266
+    },
+    {
+      "name": "128밴드 × 1행, 기준 0.40",
+      "bands": 128,
+      "rows": 1,
+      "threshold": 0.4,
+      "candidates": 50443,
+      "capped": false,
+      "candidateMs": 249,
+      "truthPairs": 422,
+      "truthMs": 244,
+      "hit": 422,
+      "precision": 0.00836587831810162,
+      "recall": 1,
+      "reduction": 0.9551318656882366
+    },
+    {
+      "name": "64밴드 × 2행, 기준 0.30",
+      "bands": 64,
+      "rows": 2,
+      "threshold": 0.3,
+      "candidates": 8000,
+      "capped": false,
+      "candidateMs": 157,
+      "truthPairs": 804,
+      "truthMs": 307,
+      "hit": 804,
+      "precision": 0.1005,
+      "recall": 1,
+      "reduction": 0.9928841449855459
+    },
+    {
+      "name": "64밴드 × 2행, 기준 0.50",
+      "bands": 64,
+      "rows": 2,
+      "threshold": 0.5,
+      "candidates": 8000,
+      "capped": false,
+      "candidateMs": 157,
+      "truthPairs": 259,
+      "truthMs": 260,
+      "hit": 259,
+      "precision": 0.032375,
+      "recall": 1,
+      "reduction": 0.9928841449855459
+    }
+  ],
+  "truths": [
+    {
+      "threshold": 0.3,
+      "pairs": 804,
+      "ms": 307,
+      "sameStory": 3725,
+      "sameStoryHit": 747
+    },
+    {
+      "threshold": 0.4,
+      "pairs": 422,
+      "ms": 244,
+      "sameStory": 3725,
+      "sameStoryHit": 402
+    },
+    {
+      "threshold": 0.5,
+      "pairs": 259,
+      "ms": 260,
+      "sameStory": 3725,
+      "sameStoryHit": 249
+    }
+  ]
+}

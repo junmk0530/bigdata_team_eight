@@ -11,7 +11,8 @@
     "start": "next start --port 5173",
     "test": "node --experimental-strip-types --test --test-isolation=none tests/news-engine.test.ts tests/backend.test.ts tests/database.test.ts",
     "typecheck": "tsc --noEmit",
-    "db:seed": "node --env-file=.env.local --experimental-strip-types scripts/seed-supabase.ts"
+    "db:seed": "node --env-file=.env.local --experimental-strip-types scripts/seed-supabase.ts",
+    "eval:lsh": "node --experimental-strip-types scripts/evaluate-lsh.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.0.0",

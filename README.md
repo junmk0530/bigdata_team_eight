@@ -96,7 +96,9 @@ Vercel 프로젝트의 환경 변수에 위 Supabase 공개 설정 두 개를 pr
 
 ## AI 요약
 
-Vercel 서버 환경 변수에 `OPENAI_API_KEY`, `OPENAI_MODEL`을 설정합니다. 사용 모델은 Responses API Structured Outputs를 지원해야 합니다.
+팀 기본 경로는 Z.ai Chat Completions입니다. Vercel 서버 환경 변수에 `ZAI_API_KEY`, `ZAI_MODEL`을 설정합니다. 비용과 할당량을 확인한 뒤 모델을 정합니다. Z.ai 문서의 경량 예는 `glm-5.3-flash`입니다. 두 값이 없으면 `OPENAI_API_KEY`, `OPENAI_MODEL`로 OpenAI Responses API를 사용합니다. 사용 모델은 JSON 출력을 지원해야 합니다.
+
+로컬 `.env.local`에는 아직 요약 API 키가 없습니다. 키가 없으면 제목 키워드 요약만 표시되고, 나머지 화면은 그대로 동작합니다.
 
 - 공개 방문자는 저장된 요약을 읽습니다.
 - `admin`/`tester`만 공유 그룹의 요약을 생성합니다.

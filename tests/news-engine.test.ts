@@ -23,3 +23,14 @@ test('summary agent runs draft and evidence verification, rejects invented evide
  const invalid:typeof fetch=async()=>Response.json({output:[{content:[{type:'output_text',text:JSON.stringify({text:'unsupported',evidence:['invented'],verified:true})}]}]});
  assert.equal((await summaryRequest(request(),{OPENAI_API_KEY:'test',OPENAI_MODEL:'test'},invalid)).status,502);
 });
+test('summary agent prefers Z.ai chat completions when that key is set',async()=>{
+ const articles=normalizeArticles([{title:'Senate approves budget bill'}]).articles;
+ const mock:typeof fetch=async(url,options)=>{
+  assert.equal(url,'https://api.z.ai/api/paas/v4/chat/completions');
+  const payload=JSON.parse(options!.body as string);assert.equal(payload.response_format.type,'json_object');assert.equal(payload.model,'glm-test');
+  return Response.json({choices:[{message:{content:JSON.stringify({text:'제목에 따르면 상원이 예산안을 통과시켰습니다.',evidence:[articles[0].id],verified:true})}}]});
+ };
+ const request=()=>new Request('https://site.test/api/summary',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({articles})});
+ const response=await summaryRequest(request(),{ZAI_API_KEY:'zai',ZAI_MODEL:'glm-test',OPENAI_API_KEY:'openai',OPENAI_MODEL:'gpt'},mock);
+ assert.equal(response.status,200);
+});

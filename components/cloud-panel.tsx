@@ -13,7 +13,7 @@ export default function CloudPanel(props:Props){
  const alive=useRef(true);
  async function loadDataset(id?:string){
   setPending(true);
-  try{const r=await fetch(`/api/datasets${id?`?id=${encodeURIComponent(id)}`:''}`),data=await r.json() as SharedResponse&{configured?:boolean;error?:string};if(!r.ok)throw new Error(data.error||'공유 데이터를 읽지 못했습니다.');if(!alive.current)return;setConfigured(data.configured!==false);setDatasets(data.datasets);setSelected(data.selected?.id||'');if(data.result)callbacks.current.onLoad(data);}
+  try{const r=await fetch(`/api/datasets${id?`?id=${encodeURIComponent(id)}`:''}`),data=await r.json() as SharedResponse&{configured?:boolean;error?:string;selected?:SharedDataset|null};if(!r.ok)throw new Error(data.error||'공유 데이터를 읽지 못했습니다.');if(!alive.current)return;setConfigured(data.configured!==false);setDatasets(data.datasets);setSelected(data.selected?.id||'');if(data.result&&(id||data.selected?.is_sample!==true))callbacks.current.onLoad(data);}
   catch(e){if(alive.current)callbacks.current.onNotice(e instanceof Error?e.message:'공유 데이터 연결에 실패했습니다.');}finally{if(alive.current)setPending(false);}
  }
  async function loadAccount(){
